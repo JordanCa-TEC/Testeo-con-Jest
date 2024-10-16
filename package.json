@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.7.5",
+    "axios": "^1.7.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
@@ -19,6 +18,14 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(axios)/)"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -39,7 +46,10 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.1",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/react-hooks": "^8.0.1",
     "jest": "^27.5.1"
   }
 }

@@ -13,11 +13,17 @@ function PokemonDetail() {
 
   return (
     <div className='pokemon__data'>
-      <h1>{data.name}</h1>
-      <img src={data.sprites.front_default} alt={data.name} />
-      <p>Height: {data.height}</p>
-      <p>Weight: {data.weight}</p>
-      <p>Base experience: {data.base_experience}</p>
+      {data ? (
+        <>
+          <h1>{data.name}</h1>
+          <img src={data.sprites.front_default} alt={data.name} />
+          <p>Height: {data.height}</p>
+          <p>Weight: {data.weight}</p>
+          <p>Base experience: {data.base_experience}</p>
+        </>
+      ) : (
+        <p>No data available</p> // Mensaje para cuando no hay datos
+      )}
     </div>
   );
 }

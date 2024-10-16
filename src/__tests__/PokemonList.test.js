@@ -36,7 +36,7 @@ describe('PokemonList Component', () => {
     useFetchPokemon.mockReturnValue({
       data: null,
       loading: false,
-      error: true,
+      error: 'Error fetching Pokémon data', // Mensaje de error simulado
     });
 
     render(
@@ -75,5 +75,3 @@ describe('PokemonList Component', () => {
     expect(screen.getByText(/squirtle/i)).toBeInTheDocument();
   });
 });
-
-  
