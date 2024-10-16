@@ -37,6 +37,6 @@ describe('useFetchPokemon', () => {
 
     expect(result.current.loading).toBe(false);
     expect(result.current.data).toBe(null);
-    expect(result.current.error.message).toBe(errorMessage); // Modificado aquí
+    expect(result.current.error.message).toBe(errorMessage);
   });
 });
