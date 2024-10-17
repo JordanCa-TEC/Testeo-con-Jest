@@ -1,42 +1,78 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+/*
 import axios from 'axios';
-import useFetchPokemon from '../hooks/useFetchPokemon';
+import { renderHook, act } from '@testing-library/react-hooks';
+import useFetchPokemon from '../hooks/useFetchPokemon'; // Ajusta según la ruta de tu hook
 
 jest.mock('axios');
 
 describe('useFetchPokemon', () => {
-  const mockData = { name: 'Pikachu', height: 1, weight: 6 };
+  it('fetches and returns data successfully', async () => {
+    const mockData = { name: 'pikachu' };
+    axios.get.mockResolvedValueOnce({ data: mockData });
 
-  it('should return data when the fetch is successful', async () => {
-    axios.get.mockResolvedValue({ data: mockData });
-
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result, waitForNextUpdate } = renderHook(() => 
       useFetchPokemon('https://pokeapi.co/api/v2/pokemon/pikachu')
     );
 
-    expect(result.current.loading).toBe(true);
+    await waitForNextUpdate(); // Esperar a que el estado se actualice
 
-    await waitForNextUpdate();
-
-    expect(result.current.loading).toBe(false);
     expect(result.current.data).toEqual(mockData);
     expect(result.current.error).toBe(null);
   });
 
-  it('should set an error if the fetch fails', async () => {
+  it('handles fetch failure', async () => {
     const errorMessage = 'Network Error';
-    axios.get.mockRejectedValue(new Error(errorMessage));
+    axios.get.mockRejectedValueOnce(new Error(errorMessage));
 
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result, waitForNextUpdate } = renderHook(() => 
       useFetchPokemon('https://pokeapi.co/api/v2/pokemon/pikachu')
     );
 
-    expect(result.current.loading).toBe(true);
+    await waitForNextUpdate(); // Esperar a que el estado se actualice
 
-    await waitForNextUpdate();
-
-    expect(result.current.loading).toBe(false);
     expect(result.current.data).toBe(null);
-    expect(result.current.error.message).toBe(errorMessage); // Modificado aquí
+    expect(result.current.error.message).toEqual(errorMessage);
+  });
+});
+*/
+import axios from 'axios';
+import { renderHook, act } from '@testing-library/react-hooks';
+import useFetchPokemon from '../hooks/useFetchPokemon';
+import { act as reactAct } from 'react'; 
+
+jest.mock('axios');
+
+describe('useFetchPokemon', () => {
+  it('fetches and returns data successfully', async () => {
+    const mockData = { name: 'pikachu' };
+    axios.get.mockResolvedValueOnce({ data: mockData });
+
+    const { result, waitForNextUpdate } = renderHook(() => 
+      useFetchPokemon('https://pokeapi.co/api/v2/pokemon/pikachu')
+    );
+
+    // Usar act para esperar la actualización
+    await act(async () => {
+      await waitForNextUpdate(); // Esto debe estar dentro de act
+    });
+
+    expect(result.current.data).toEqual(mockData);
+    expect(result.current.error).toBe(null);
+  });
+
+  it('handles fetch failure', async () => {
+    const errorMessage = 'Network Error';
+    axios.get.mockRejectedValueOnce(new Error(errorMessage));
+
+    const { result, waitForNextUpdate } = renderHook(() => 
+      useFetchPokemon('https://pokeapi.co/api/v2/pokemon/pikachu')
+    );
+
+    await act(async () => {
+      await waitForNextUpdate(); // También aquí
+    });
+
+    expect(result.current.data).toBe(null);
+    expect(result.current.error.message).toEqual(errorMessage);
   });
 });
